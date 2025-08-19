@@ -1,0 +1,38 @@
+# Flutter / Dart
+.dart_tool/
+.packages
+.pub-cache/
+build/
+coverage/
+
+# Android
+android/.gradle/
+android/app/build/
+*.keystore
+*.jks
+*.aab
+*.apk
+
+# iOS
+ios/Pods/
+ios/DerivedData/
+*.ipa
+
+# IDE
+.idea/
+.vscode/
+
+# Medya / büyük dosyalar
+*.mp4
+*.mov
+*.zip
+*.log
+
+# Node
+node_modules/
+*.local
+
+# Firebase Functions
+functions/node_modules/
+functions/.runtimeconfig.json
+functions/.env

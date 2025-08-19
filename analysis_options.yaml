@@ -1,0 +1,4 @@
+linter:
+  rules:
+    unnecessary_this: false
+    avoid_print: true
