@@ -65,12 +65,20 @@ class SettingsScreen extends ConsumerWidget {
                     SizedBox(
                       width: double.infinity,
                       child: OutlinedButton(
-                        onPressed: () => userNotifier.logout(),
+                        onPressed: () {
+                          userNotifier.logout();
+                          ScaffoldMessenger.of(context).showSnackBar(
+                            const SnackBar(
+                              content: Text('🚪 Logged out - Now in Free mode for testing'),
+                              backgroundColor: Colors.orange,
+                            ),
+                          );
+                        },
                         style: OutlinedButton.styleFrom(
                           side: const BorderSide(color: Colors.red),
                         ),
                         child: const Text(
-                          'Logout',
+                          'Reset to Free User (Test Logout)',
                           style: TextStyle(color: Colors.red),
                         ),
                       ),
@@ -80,20 +88,95 @@ class SettingsScreen extends ConsumerWidget {
               ),
             ),
 
+            const SizedBox(height: 16),
+
+            // Quick Test Buttons  
+            Row(
+              children: [
+                Expanded(
+                  child: FilledButton.icon(
+                    onPressed: () {
+                      userNotifier.loginWithGmail('oguzbahadir@gmail.com');
+                      ScaffoldMessenger.of(context).showSnackBar(
+                        const SnackBar(content: Text('🆓 Now Free User - Check Dashboard!')),
+                      );
+                    },
+                    icon: const Text('🆓'),
+                    label: const Text('Free'),
+                    style: FilledButton.styleFrom(backgroundColor: Colors.orange),
+                  ),
+                ),
+                const SizedBox(width: 8),
+                Expanded(
+                  child: FilledButton.icon(
+                    onPressed: () {
+                      userNotifier.loginWithGmail('scifivetech@gmail.com'); 
+                      ScaffoldMessenger.of(context).showSnackBar(
+                        const SnackBar(content: Text('🎯 Now Trial User - Check Dashboard!')),
+                      );
+                    },
+                    icon: const Text('🎯'),
+                    label: const Text('Trial'),
+                    style: FilledButton.styleFrom(backgroundColor: Colors.blue),
+                  ),
+                ),
+                const SizedBox(width: 8),
+                Expanded(
+                  child: FilledButton.icon(
+                    onPressed: () {
+                      userNotifier.loginWithGmail('bahadirafist@gmail.com');
+                      ScaffoldMessenger.of(context).showSnackBar(
+                        const SnackBar(content: Text('⭐ Now Premium User - Check Dashboard!')),
+                      );
+                    },
+                    icon: const Text('⭐'),
+                    label: const Text('Premium'),
+                    style: FilledButton.styleFrom(backgroundColor: Colors.purple),
+                  ),
+                ),
+              ],
+            ),
+
             const SizedBox(height: 24),
 
             // Test Login Options
             Text(
-              'Test Different User Types',
+              'Simulate Different User Types',
               style: theme.textTheme.titleLarge?.copyWith(
                 color: Colors.white,
                 fontWeight: FontWeight.w600,
               ),
             ),
             Text(
-              'Login with different emails to test membership levels',
+              'Click on Gmail addresses to simulate different membership levels.\nThis overrides your current Google login session for testing.',
               style: theme.textTheme.bodyMedium?.copyWith(
                 color: Colors.white70,
+              ),
+            ),
+
+            const SizedBox(height: 12),
+            
+            // Warning
+            Container(
+              padding: const EdgeInsets.all(12),
+              decoration: BoxDecoration(
+                color: Colors.orange.withOpacity(0.1),
+                border: Border.all(color: Colors.orange.withOpacity(0.3)),
+                borderRadius: BorderRadius.circular(8),
+              ),
+              child: Row(
+                children: [
+                  const Icon(Icons.info_outline, color: Colors.orange, size: 20),
+                  const SizedBox(width: 8),
+                  Expanded(
+                    child: Text(
+                      'Test Mode: Click Gmail addresses below to switch user types',
+                      style: theme.textTheme.bodySmall?.copyWith(
+                        color: Colors.orange,
+                      ),
+                    ),
+                  ),
+                ],
               ),
             ),
 
@@ -181,8 +264,17 @@ class SettingsScreen extends ConsumerWidget {
                             userNotifier.loginWithGmail(gmailEmail);
                             ScaffoldMessenger.of(context).showSnackBar(
                               SnackBar(
-                                content: Text('Logged in as ${_getUserTypeTitle(userType)}'),
+                                content: Text('🔄 Switched to ${gmailEmail}\n${_getUserTypeTitle(userType)}'),
                                 backgroundColor: _getUserTypeColor(userType),
+                                duration: const Duration(seconds: 2),
+                                action: SnackBarAction(
+                                  label: 'Go to Dashboard',
+                                  textColor: Colors.white,
+                                  onPressed: () {
+                                    // Navigate to dashboard to see changes
+                                    Navigator.pop(context); // Close settings if needed
+                                  },
+                                ),
                               ),
                             );
                           },
