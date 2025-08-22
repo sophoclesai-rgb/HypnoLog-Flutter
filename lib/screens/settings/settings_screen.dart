@@ -16,7 +16,7 @@ class SettingsScreen extends ConsumerWidget {
     return Scaffold(
       backgroundColor: const Color(0xFF0A0A0F),
       appBar: AppBar(
-        title: const Text('Settings'),
+        title: const Text('Settings & Testing'),
         backgroundColor: Colors.transparent,
       ),
       bottomNavigationBar: const HypnoBottomNav(),
@@ -25,7 +25,7 @@ class SettingsScreen extends ConsumerWidget {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            // Current User Status
+            // Current User Status Card
             MysticalCard(
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
@@ -69,7 +69,7 @@ class SettingsScreen extends ConsumerWidget {
                           userNotifier.logout();
                           ScaffoldMessenger.of(context).showSnackBar(
                             const SnackBar(
-                              content: Text('🚪 Logged out - Now in Free mode for testing'),
+                              content: Text('🚪 Reset to Free User mode'),
                               backgroundColor: Colors.orange,
                             ),
                           );
@@ -88,9 +88,26 @@ class SettingsScreen extends ConsumerWidget {
               ),
             ),
 
+            const SizedBox(height: 24),
+
+            // Quick Test Buttons
+            Text(
+              'Quick User Type Switch',
+              style: theme.textTheme.titleLarge?.copyWith(
+                color: Colors.white,
+                fontWeight: FontWeight.w600,
+              ),
+            ),
+            const SizedBox(height: 8),
+            Text(
+              'Test different user types instantly',
+              style: theme.textTheme.bodyMedium?.copyWith(
+                color: Colors.white70,
+              ),
+            ),
+
             const SizedBox(height: 16),
 
-            // Quick Test Buttons  
             Row(
               children: [
                 Expanded(
@@ -98,26 +115,38 @@ class SettingsScreen extends ConsumerWidget {
                     onPressed: () {
                       userNotifier.loginWithGmail('oguzbahadir@gmail.com');
                       ScaffoldMessenger.of(context).showSnackBar(
-                        const SnackBar(content: Text('🆓 Now Free User - Check Dashboard!')),
+                        const SnackBar(
+                          content: Text('🆓 Now Free User - Check Dashboard for upgrade badge!'),
+                          backgroundColor: Colors.orange,
+                        ),
                       );
                     },
                     icon: const Text('🆓'),
                     label: const Text('Free'),
-                    style: FilledButton.styleFrom(backgroundColor: Colors.orange),
+                    style: FilledButton.styleFrom(
+                      backgroundColor: Colors.orange,
+                      padding: const EdgeInsets.symmetric(vertical: 12),
+                    ),
                   ),
                 ),
                 const SizedBox(width: 8),
                 Expanded(
                   child: FilledButton.icon(
                     onPressed: () {
-                      userNotifier.loginWithGmail('scifivetech@gmail.com'); 
+                      userNotifier.loginWithGmail('scifivetech@gmail.com');
                       ScaffoldMessenger.of(context).showSnackBar(
-                        const SnackBar(content: Text('🎯 Now Trial User - Check Dashboard!')),
+                        const SnackBar(
+                          content: Text('🎯 Now Trial User - Premium access!'),
+                          backgroundColor: Colors.blue,
+                        ),
                       );
                     },
                     icon: const Text('🎯'),
                     label: const Text('Trial'),
-                    style: FilledButton.styleFrom(backgroundColor: Colors.blue),
+                    style: FilledButton.styleFrom(
+                      backgroundColor: Colors.blue,
+                      padding: const EdgeInsets.symmetric(vertical: 12),
+                    ),
                   ),
                 ),
                 const SizedBox(width: 8),
@@ -126,12 +155,18 @@ class SettingsScreen extends ConsumerWidget {
                     onPressed: () {
                       userNotifier.loginWithGmail('bahadirafist@gmail.com');
                       ScaffoldMessenger.of(context).showSnackBar(
-                        const SnackBar(content: Text('⭐ Now Premium User - Check Dashboard!')),
+                        const SnackBar(
+                          content: Text('⭐ Now Premium User - No upgrade badge!'),
+                          backgroundColor: Colors.purple,
+                        ),
                       );
                     },
                     icon: const Text('⭐'),
                     label: const Text('Premium'),
-                    style: FilledButton.styleFrom(backgroundColor: Colors.purple),
+                    style: FilledButton.styleFrom(
+                      backgroundColor: Colors.purple,
+                      padding: const EdgeInsets.symmetric(vertical: 12),
+                    ),
                   ),
                 ),
               ],
@@ -139,24 +174,7 @@ class SettingsScreen extends ConsumerWidget {
 
             const SizedBox(height: 24),
 
-            // Test Login Options
-            Text(
-              'Simulate Different User Types',
-              style: theme.textTheme.titleLarge?.copyWith(
-                color: Colors.white,
-                fontWeight: FontWeight.w600,
-              ),
-            ),
-            Text(
-              'Click on Gmail addresses to simulate different membership levels.\nThis overrides your current Google login session for testing.',
-              style: theme.textTheme.bodyMedium?.copyWith(
-                color: Colors.white70,
-              ),
-            ),
-
-            const SizedBox(height: 12),
-            
-            // Warning
+            // Warning Box
             Container(
               padding: const EdgeInsets.all(12),
               decoration: BoxDecoration(
@@ -170,13 +188,31 @@ class SettingsScreen extends ConsumerWidget {
                   const SizedBox(width: 8),
                   Expanded(
                     child: Text(
-                      'Test Mode: Click Gmail addresses below to switch user types',
+                      'TEST MODE: Use buttons above to switch user types and test features',
                       style: theme.textTheme.bodySmall?.copyWith(
                         color: Colors.orange,
                       ),
                     ),
                   ),
                 ],
+              ),
+            ),
+
+            const SizedBox(height: 24),
+
+            // All Gmail Accounts
+            Text(
+              'All Test Gmail Accounts',
+              style: theme.textTheme.titleLarge?.copyWith(
+                color: Colors.white,
+                fontWeight: FontWeight.w600,
+              ),
+            ),
+            const SizedBox(height: 8),
+            Text(
+              'Click any Gmail address to switch to that user type',
+              style: theme.textTheme.bodyMedium?.copyWith(
+                color: Colors.white70,
               ),
             ),
 
@@ -215,7 +251,7 @@ class SettingsScreen extends ConsumerWidget {
                         if (isCurrentUser && userType == UserType.free) ...[
                           const SizedBox(height: 4),
                           Text(
-                            _getFreeUserLimits(userState),
+                            'Limits: ${userState.remainingInterpretations}/1 interpretations, ${userState.remainingVisualizations}/1 images, ${userState.remainingVideos}/1 videos',
                             style: theme.textTheme.bodySmall?.copyWith(
                               color: Colors.orange.withOpacity(0.7),
                               fontSize: 10,
@@ -225,7 +261,7 @@ class SettingsScreen extends ConsumerWidget {
                         if (isCurrentUser && userType == UserType.startTrial) ...[
                           const SizedBox(height: 4),
                           Text(
-                            userState.isTrialActive ? 'Trial Active ✅' : 'Trial Expired ❌',
+                            userState.isTrialActive ? 'Trial Active ✅ (3 days)' : 'Trial Expired ❌',
                             style: theme.textTheme.bodySmall?.copyWith(
                               color: userState.isTrialActive ? Colors.green : Colors.red,
                               fontSize: 10,
@@ -266,15 +302,7 @@ class SettingsScreen extends ConsumerWidget {
                               SnackBar(
                                 content: Text('🔄 Switched to ${gmailEmail}\n${_getUserTypeTitle(userType)}'),
                                 backgroundColor: _getUserTypeColor(userType),
-                                duration: const Duration(seconds: 2),
-                                action: SnackBarAction(
-                                  label: 'Go to Dashboard',
-                                  textColor: Colors.white,
-                                  onPressed: () {
-                                    // Navigate to dashboard to see changes
-                                    Navigator.pop(context); // Close settings if needed
-                                  },
-                                ),
+                                duration: const Duration(seconds: 3),
                               ),
                             );
                           },
@@ -285,7 +313,7 @@ class SettingsScreen extends ConsumerWidget {
 
             const SizedBox(height: 24),
 
-            // Debug Information
+            // Debug Information Card
             MysticalCard(
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
@@ -297,36 +325,35 @@ class SettingsScreen extends ConsumerWidget {
                       fontWeight: FontWeight.w600,
                     ),
                   ),
-                  const SizedBox(height: 8),
-                  Text(
-                    'User Type: ${userState.userType.name}',
-                    style: theme.textTheme.bodyMedium?.copyWith(
-                      color: Colors.white70,
-                    ),
+                  const SizedBox(height: 12),
+                  _buildDebugRow('User Type:', userState.userType.name, Colors.white70),
+                  _buildDebugRow(
+                    'Show Upgrade Badge:',
+                    userState.userType == UserType.free ? "YES" : "NO",
+                    userState.userType == UserType.free ? Colors.orange : Colors.green,
                   ),
-                  Text(
-                    'Show Upgrade Badge: ${userState.userType == UserType.free ? "YES" : "NO"}',
-                    style: theme.textTheme.bodyMedium?.copyWith(
-                      color: userState.userType == UserType.free ? Colors.orange : Colors.green,
-                    ),
-                  ),
-                  Text(
-                    'Premium Access: ${ref.read(userProvider.notifier).hasPremiumAccess ? "YES" : "NO"}',
-                    style: theme.textTheme.bodyMedium?.copyWith(
-                      color: ref.read(userProvider.notifier).hasPremiumAccess ? Colors.purple : Colors.orange,
-                    ),
+                  _buildDebugRow(
+                    'Premium Access:',
+                    ref.read(userProvider.notifier).hasPremiumAccess ? "YES" : "NO",
+                    ref.read(userProvider.notifier).hasPremiumAccess ? Colors.purple : Colors.orange,
                   ),
                   if (userState.userType == UserType.free) ...[
                     const SizedBox(height: 8),
+                    const Divider(color: Colors.white30),
+                    const SizedBox(height: 8),
                     Text(
-                      'Usage Limits:',
+                      'Usage Limits (Free User):',
                       style: theme.textTheme.bodyMedium?.copyWith(
                         color: Colors.white,
                         fontWeight: FontWeight.w600,
                       ),
                     ),
+                    const SizedBox(height: 4),
                     Text(
-                      ref.read(userProvider.notifier).usageInfo,
+                      '• Dream Interpretations: ${userState.usedDreamInterpretations}/1 used\n'
+                      '• Dream Visualizations: ${userState.usedDreamVisualizations}/1 used\n'
+                      '• Dream Videos: ${userState.usedDreamVideos}/1 used\n'
+                      '• Dream Writing: ∞ (unlimited)',
                       style: theme.textTheme.bodySmall?.copyWith(
                         color: Colors.white60,
                       ),
@@ -339,6 +366,28 @@ class SettingsScreen extends ConsumerWidget {
             const SizedBox(height: 80), // Bottom navigation padding
           ],
         ),
+      ),
+    );
+  }
+
+  Widget _buildDebugRow(String label, String value, Color valueColor) {
+    return Padding(
+      padding: const EdgeInsets.only(bottom: 4),
+      child: Row(
+        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+        children: [
+          Text(
+            label,
+            style: const TextStyle(color: Colors.white70),
+          ),
+          Text(
+            value,
+            style: TextStyle(
+              color: valueColor,
+              fontWeight: FontWeight.w600,
+            ),
+          ),
+        ],
       ),
     );
   }
@@ -361,7 +410,7 @@ class SettingsScreen extends ConsumerWidget {
   String _getUserTypeTitle(UserType userType) {
     switch (userType) {
       case UserType.free:
-        return '🆓 Free - Limited Features';
+        return '🆓 Free - Limited Features (1 each)';
       case UserType.startTrial:
         return '🎯 Start Trial - 3 Day Free Premium';
       case UserType.weeklyPremiumTrial:
@@ -371,9 +420,5 @@ class SettingsScreen extends ConsumerWidget {
       case UserType.yearlyPremium:
         return '🏆 Yearly Premium - $49.99/year';
     }
-  }
-
-  String _getFreeUserLimits(UserState userState) {
-    return 'Limits: ${userState.remainingInterpretations} interpretations, ${userState.remainingVisualizations} images, ${userState.remainingVideos} videos left';
   }
 }
