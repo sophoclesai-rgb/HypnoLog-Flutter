@@ -8,80 +8,42 @@ class SettingsScreen extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     return Scaffold(
-      backgroundColor: const Color(0xFF0A0A0F),
+      backgroundColor: Colors.red, // DISTINCTIVE RED BACKGROUND
       appBar: AppBar(
-        title: const Text('Settings'),
-        backgroundColor: Colors.transparent,
+        title: const Text('🔥 NEW SETTINGS TEST 🔥'),
+        backgroundColor: Colors.orange,
       ),
       bottomNavigationBar: const HypnoBottomNav(),
-      body: Padding(
-        padding: const EdgeInsets.all(16.0),
+      body: const Center(
         child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
           children: [
-            // Google Logout Button
-            SizedBox(
-              width: double.infinity,
-              child: ElevatedButton.icon(
-                onPressed: () {
-                  // TODO: Add Firebase/Google logout
-                  ScaffoldMessenger.of(context).showSnackBar(
-                    const SnackBar(
-                      content: Text('Logout functionality will be implemented'),
-                      backgroundColor: Colors.red,
-                    ),
-                  );
-                },
-                style: ElevatedButton.styleFrom(
-                  backgroundColor: Colors.red,
-                  foregroundColor: Colors.white,
-                  padding: const EdgeInsets.symmetric(vertical: 16),
-                ),
-                icon: const Icon(Icons.logout),
-                label: const Text('Logout from Google'),
+            Text(
+              '🚀 SETTINGS CHANGED SUCCESSFULLY! 🚀',
+              style: TextStyle(
+                color: Colors.white,
+                fontSize: 24,
+                fontWeight: FontWeight.bold,
               ),
+              textAlign: TextAlign.center,
             ),
-
-            const SizedBox(height: 24),
-
-            // Test Instructions
-            Container(
-              width: double.infinity,
-              padding: const EdgeInsets.all(16),
-              decoration: BoxDecoration(
-                color: Colors.grey[900],
-                borderRadius: BorderRadius.circular(8),
+            SizedBox(height: 20),
+            Text(
+              'If you see this text, the file changes are working!',
+              style: TextStyle(
+                color: Colors.white,
+                fontSize: 16,
               ),
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  const Text(
-                    'Test Gmail Accounts:',
-                    style: TextStyle(
-                      color: Colors.white,
-                      fontSize: 18,
-                      fontWeight: FontWeight.bold,
-                    ),
-                  ),
-                  const SizedBox(height: 12),
-                  _buildEmailInfo('oguzbahadir@gmail.com', 'FREE - Shows upgrade badge'),
-                  _buildEmailInfo('scifivetech@gmail.com', 'TRIAL - 3 day premium'),
-                  _buildEmailInfo('bahadirafist@gmail.com', 'PREMIUM Monthly'),
-                  _buildEmailInfo('scifivedev@gmail.com', 'PREMIUM Yearly'),
-                ],
-              ),
+              textAlign: TextAlign.center,
+            ),
+            SizedBox(height: 40),
+            Icon(
+              Icons.check_circle,
+              color: Colors.green,
+              size: 100,
             ),
           ],
         ),
-      ),
-    );
-  }
-
-  Widget _buildEmailInfo(String email, String type) {
-    return Padding(
-      padding: const EdgeInsets.only(bottom: 8),
-      child: Text(
-        '• $email - $type',
-        style: const TextStyle(color: Colors.white70),
       ),
     );
   }
