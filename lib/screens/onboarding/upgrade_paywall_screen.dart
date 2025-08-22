@@ -227,12 +227,30 @@ class _UpgradePaywallScreenState extends ConsumerState<UpgradePaywallScreen> {
                 child: FilledButton(
                   onPressed: () {
                     // TODO: RevenueCat subscription integration
-                    // For now, simulate successful upgrade
-                    ref.read(userProvider.notifier).upgradeToPremium();
+                    // For now, simulate successful upgrade based on selected plan
+                    final userNotifier = ref.read(userProvider.notifier);
+                    
+                    switch (selectedPlan) {
+                      case 'weekly':
+                        // Note: Weekly upgrade would be through trial first
+                        ScaffoldMessenger.of(context).showSnackBar(
+                          const SnackBar(
+                            content: Text('Weekly plan requires Start Trial first'),
+                            backgroundColor: Colors.orange,
+                          ),
+                        );
+                        return;
+                      case 'monthly':
+                        userNotifier.upgradeToMonthlyPremium();
+                        break;
+                      case 'yearly':
+                        userNotifier.upgradeToYearlyPremium();
+                        break;
+                    }
                     
                     ScaffoldMessenger.of(context).showSnackBar(
                       SnackBar(
-                        content: const Text('🎉 Welcome to Premium! Upgrade badge will disappear.'),
+                        content: Text('🎉 Welcome to ${selectedPlan.toUpperCase()} Premium!'),
                         backgroundColor: Colors.green[600],
                       ),
                     );

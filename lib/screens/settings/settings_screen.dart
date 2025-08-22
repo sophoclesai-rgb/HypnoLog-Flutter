@@ -99,31 +99,57 @@ class SettingsScreen extends ConsumerWidget {
 
             const SizedBox(height: 16),
 
-            ...testEmailUserTypes.entries.map((entry) {
-              final email = entry.key;
+            ...realGmailUserTypes.entries.map((entry) {
+              final gmailEmail = entry.key;
               final userType = entry.value;
-              final isCurrentUser = userState.email?.toLowerCase() == email;
+              final isCurrentUser = userState.email?.toLowerCase() == gmailEmail;
 
               return Padding(
                 padding: const EdgeInsets.only(bottom: 12),
                 child: MysticalCard(
                   child: ListTile(
                     leading: Icon(
-                      Icons.email,
+                      Icons.account_circle,
                       color: isCurrentUser ? Colors.green : _getUserTypeColor(userType),
+                      size: 32,
                     ),
                     title: Text(
-                      email,
+                      gmailEmail,
                       style: theme.textTheme.titleMedium?.copyWith(
                         color: Colors.white,
                         fontWeight: isCurrentUser ? FontWeight.w600 : FontWeight.w400,
                       ),
                     ),
-                    subtitle: Text(
-                      _getUserTypeTitle(userType),
-                      style: theme.textTheme.bodySmall?.copyWith(
-                        color: _getUserTypeColor(userType),
-                      ),
+                    subtitle: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Text(
+                          _getUserTypeTitle(userType),
+                          style: theme.textTheme.bodySmall?.copyWith(
+                            color: _getUserTypeColor(userType),
+                          ),
+                        ),
+                        if (isCurrentUser && userType == UserType.free) ...[
+                          const SizedBox(height: 4),
+                          Text(
+                            _getFreeUserLimits(userState),
+                            style: theme.textTheme.bodySmall?.copyWith(
+                              color: Colors.orange.withOpacity(0.7),
+                              fontSize: 10,
+                            ),
+                          ),
+                        ],
+                        if (isCurrentUser && userType == UserType.startTrial) ...[
+                          const SizedBox(height: 4),
+                          Text(
+                            userState.isTrialActive ? 'Trial Active ✅' : 'Trial Expired ❌',
+                            style: theme.textTheme.bodySmall?.copyWith(
+                              color: userState.isTrialActive ? Colors.green : Colors.red,
+                              fontSize: 10,
+                            ),
+                          ),
+                        ],
+                      ],
                     ),
                     trailing: isCurrentUser
                         ? Container(
@@ -152,7 +178,7 @@ class SettingsScreen extends ConsumerWidget {
                     onTap: isCurrentUser
                         ? null
                         : () {
-                            userNotifier.loginWithEmail(email);
+                            userNotifier.loginWithGmail(gmailEmail);
                             ScaffoldMessenger.of(context).showSnackBar(
                               SnackBar(
                                 content: Text('Logged in as ${_getUserTypeTitle(userType)}'),
@@ -192,6 +218,28 @@ class SettingsScreen extends ConsumerWidget {
                       color: userState.userType == UserType.free ? Colors.orange : Colors.green,
                     ),
                   ),
+                  Text(
+                    'Premium Access: ${ref.read(userProvider.notifier).hasPremiumAccess ? "YES" : "NO"}',
+                    style: theme.textTheme.bodyMedium?.copyWith(
+                      color: ref.read(userProvider.notifier).hasPremiumAccess ? Colors.purple : Colors.orange,
+                    ),
+                  ),
+                  if (userState.userType == UserType.free) ...[
+                    const SizedBox(height: 8),
+                    Text(
+                      'Usage Limits:',
+                      style: theme.textTheme.bodyMedium?.copyWith(
+                        color: Colors.white,
+                        fontWeight: FontWeight.w600,
+                      ),
+                    ),
+                    Text(
+                      ref.read(userProvider.notifier).usageInfo,
+                      style: theme.textTheme.bodySmall?.copyWith(
+                        color: Colors.white60,
+                      ),
+                    ),
+                  ],
                 ],
               ),
             ),
@@ -209,19 +257,31 @@ class SettingsScreen extends ConsumerWidget {
         return Colors.orange;
       case UserType.startTrial:
         return Colors.blue;
-      case UserType.premium:
+      case UserType.weeklyPremiumTrial:
+        return Colors.lightBlue;
+      case UserType.monthlyPremium:
         return Colors.purple;
+      case UserType.yearlyPremium:
+        return Colors.deepPurple;
     }
   }
 
   String _getUserTypeTitle(UserType userType) {
     switch (userType) {
       case UserType.free:
-        return '🆓 Free User (sees upgrade badge)';
+        return '🆓 Free - Limited Features';
       case UserType.startTrial:
-        return '🎯 Start Trial User (3-day trial)';
-      case UserType.premium:
-        return '⭐ Premium User (no upgrade badge)';
+        return '🎯 Start Trial - 3 Day Free Premium';
+      case UserType.weeklyPremiumTrial:
+        return '📅 Weekly Premium - $4.99/week';
+      case UserType.monthlyPremium:
+        return '🗓️ Monthly Premium - $9.99/month';
+      case UserType.yearlyPremium:
+        return '🏆 Yearly Premium - $49.99/year';
     }
+  }
+
+  String _getFreeUserLimits(UserState userState) {
+    return 'Limits: ${userState.remainingInterpretations} interpretations, ${userState.remainingVisualizations} images, ${userState.remainingVideos} videos left';
   }
 }
