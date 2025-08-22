@@ -4,6 +4,7 @@ import 'package:go_router/go_router.dart';
 import '../screens/onboarding/feature_comparison_screen.dart';
 import '../screens/onboarding/opening_screen.dart';
 import '../screens/onboarding/welcome_screen.dart';
+import '../screens/onboarding/upgrade_paywall_screen.dart';
 import '../screens/dashboard/dashboard_screen.dart';
 import '../screens/journal/dream_list_screen.dart';
 import '../screens/journal/write_dream_screen.dart';
@@ -29,6 +30,11 @@ final appRouterProvider = Provider<GoRouter>((ref) {
         path: '/onboarding/welcome',
         name: 'welcome',
         pageBuilder: (context, state) => const NoTransitionPage(child: WelcomeScreen()),
+      ),
+      GoRoute(
+        path: '/upgrade-paywall',
+        name: 'upgrade-paywall',
+        pageBuilder: (context, state) => const NoTransitionPage(child: UpgradePaywallScreen()),
       ),
       GoRoute(
         path: '/dashboard',
