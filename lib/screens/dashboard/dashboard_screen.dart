@@ -16,7 +16,7 @@ class DashboardScreen extends ConsumerWidget {
       backgroundColor: const Color(0xFF0A0A0F),
       appBar: AppBar(
         backgroundColor: Colors.transparent,
-        title: const Text('HypnoLog'),
+        title: const Text('HypnoLog - Test'),
         actions: [
           IconButton(onPressed: () => context.go('/settings'), icon: const Icon(Icons.settings)),
         ],
